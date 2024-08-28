@@ -41,7 +41,13 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 Route::middleware(['auth', 'user', 'profile'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/shift-booking', [App\Http\Controllers\HomeController::class, 'index'])->name('bookShift');
+    Route::get('/shift-booking', [App\Http\Controllers\HomeController::class, 'bookShift'])->name('bookShift');
+    Route::post('/shift-booking', [App\Http\Controllers\HomeController::class, 'store'])->name('bookShift.store');
+    Route::get('/get-thanas-by-district/{district}', [App\Http\Controllers\HomeController::class, 'getThanasByDistrict'])->name('getThanasByDistrict');
+    Route::get('/get-zones-by-thana/{thana}', [App\Http\Controllers\HomeController::class, 'getZonesByThana'])->name('getZonesByThana');
+    Route::get('/get-points-by-zone/{zone}', [App\Http\Controllers\HomeController::class, 'getPointsByZone'])->name('getPointsByZone');
+    Route::post('/zone-shift-slots', [App\Http\Controllers\HomeController::class, 'showShifts'])->name('shiftSlots.show');
+    Route::post('/zone-shift-slots/{shiftSlot}/update', [App\Http\Controllers\ShiftSlotController::class, 'update'])->name('shiftSlots.update');
 });
 
 

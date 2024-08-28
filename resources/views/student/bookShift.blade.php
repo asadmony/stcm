@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userLayout')
 
 @section('content')
 <div class="container px-0">
@@ -7,14 +7,14 @@
         <div class="col-lg-4">
             <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Select Traffic Point</h3>
+                  <h3 class="card-title">Select your nearest location</h3>
                 </div>
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
                     </div>
                 @endif
-                <form action="{{ route('admin.shiftSlots.show') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shiftSlots.show') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                 <!-- form start -->
                 <div class="card-body">
@@ -61,7 +61,7 @@
 
             <div class="card card-success">
                 <div class="card-header">
-                  <h3 class="card-title success">Update Shifts For Selected Traffic Point</h3>
+                  <h3 class="card-title success">Book your Shift</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
@@ -91,61 +91,48 @@
                         </table>
                     </div>
                     @endif
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Shift</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th style="width: 150px">Number of slots</th>
-                        <th>Status</th>
-                        {{-- <th style="width: 40px">Options</th> --}}
-                      </tr>
-                    </thead>
-                    <tbody>
+                    <div>
                         @if (isset($shiftSlots) && $shiftSlots->count() > 0)
-                        @foreach ($shiftSlots as $slot)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $slot->shift->name }}</td>
-                            <td>{{ $slot->start_time }}</td>
-                            <td>{{ $slot->end_time }}</td>
-                            <td>
-                                <form class="" id="update-slot-{{ $slot->id }}" action="" method="post">
-                                    @csrf
-                                    <div class="input-group mb-3 ">
-                                        <input type="number" class="form-control" name="slots" value="{{ $slot->slots }}" id="slots-{{ $slot->id }}">
-                                        <div class="input-group-append">
-                                            <button class="input-group-text" onclick="event.preventDefault();updateSlot('{{ $slot->id }}');"><i class="fas fa-save fa-lg"></i></button>
-                                        </div>
+                        <form action="{{ route('bookShift.store') }}" method="POST">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label for="date" class="col-sm-2 col-form-label">Select Date</label>
+                                    <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="date" name="date" value="{{ old('date') ?? '' }}">
                                     </div>
-                                </form>
-                            </td>
-                            <td class="" id="status-data-{{ $slot->id }}">
-                                @if ($slot->active == 1)
-                                    <span class="border rounded px-2 text-success">Active</span>
-                                    <a title="make inactive" href="#" class="text-danger" onclick="event.preventDefault();updateStatus({{ $slot->id }})" ><i class="fas fa-lock"></i></a>
-                                @else
-                                    <span class="border rounded px-2 text-danger">Inactive</span>
-                                    <a title="make active" href="#" class="text-primary" onclick="event.preventDefault();updateStatus({{ $slot->id }})" ><i class="fas fa-lock-open"></i></a>
-                                @endif
-                            </td>
-                            {{-- <td>
-                                <a href="{{ route('admin.shiftSlots', $slot->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                            </td> --}}
-                        </tr>
-                        @endforeach
-                        @else
-                        <tr>
-                            <td colspan="7">
-                                <p class="text-center">First select a traffic point</p>
-                            </td>
-                        </tr>
-                        @endif
-
-                    </tbody>
-                  </table>
+                                </div>
+                                <table class="table table-striped-">
+                                    <thead>
+                                      <tr>
+                                        <th style="width: 10px">Select</th>
+                                        <th>Shift</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($shiftSlots as $slot)
+                                        <tr class="">
+                                            <td><input class="" type="checkbox" id="slots-{{ $slot->id }}" name="slots[]" value="{{ $slot->id }}"></td>
+                                            <td>{{ $slot->shift->name }}</td>
+                                            <td>{{ $slot->start_time }}</td>
+                                            <td>{{ $slot->end_time }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary w-100"><i class="far fa-calendar-check"></i> Book</button>
+                            </div>
+                        </form>
+                            @else
+                            <div class="alert alert-danger m-3" role="alert">
+                                We are not hiring for this area yet.
+                            </div>
+                            @endif
+                        </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -153,46 +140,11 @@
     </div>
 
     <script>
-        function updateSlot(id){
-            const form = document.querySelector('#update-slot-'+id);
-            $.ajax({
-                type: "post",
-                // url: window.location.hostname+"/admin/get-thanas-by-district/"+id,
-                url: "/admin/zone-shift-slots/"+id+"/update",
-                data: {
-                    '_token': form['_token'].value,
-                    'slots': form['slots'].value,
-                }
-            }).done(function(response){
-                alert('Slots updated !');
-            }).fail(function(response){
-                alert('Slots can not be updated !');
-                console.log(response);
-            });
-        }
-        function updateStatus(id){
-            $.ajax({
-                type: "get",
-                url: "/admin/zone-shift-slots/"+id+"/updateStatus",
-                data: {
-                    // 'id': id,
-                }
-            }).done(function(response){
-                if (response == 1) {
-                    $('#status-data-'+id).html('<span class="border rounded px-2 text-success">Active</span><a href="#" class="text-danger" onclick="event.preventDefault();updateStatus('+id+')" ><i class="fas fa-lock"></i></a>');
-                } else {
-                    $('#status-data-'+id).html('<span class="border rounded px-2 text-danger">Inactive</span><a href="#" class="text-primary" onclick="event.preventDefault();updateStatus('+id+')" ><i class="fas fa-lock-open"></i></a>');
-                }
-            }).fail(function(response){
-                alert('Error! Status cannot be updated.');
-                console.log(response);
-            });
-        }
         function getThana(id){
             $.ajax({
                 type: "get",
                 // url: window.location.hostname+"/admin/get-thanas-by-district/"+id,
-                url: "/admin/get-thanas-by-district/"+id,
+                url: "/get-thanas-by-district/"+id,
                 data: {
                     // 'district_id': id,
             }
@@ -218,7 +170,7 @@
             $.ajax({
                 type: "get",
                 // url: window.location.hostname+"/admin/get-thanas-by-district/"+id,
-                url: "/admin/get-zones-by-thana/"+id,
+                url: "/get-zones-by-thana/"+id,
                 data: {
                     // 'district_id': id,
                 }
@@ -242,7 +194,7 @@
             $.ajax({
                 type: "get",
                 // url: window.location.hostname+"/admin/get-thanas-by-district/"+id,
-                url: "/admin/get-points-by-zone/"+id,
+                url: "/get-points-by-zone/"+id,
                 data: {
                     // 'district_id': id,
                 }

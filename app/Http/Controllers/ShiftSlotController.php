@@ -44,10 +44,10 @@ class ShiftSlotController extends Controller
     public function show(ShiftSlot $shiftSlot, Request $request)
     {
         $data = $this->validate($request, [
-            'district_id' => ['required', 'integer', 'min:1', 'exists:App\Models\District,id'],
-            'thana_id' => ['required', 'integer', 'min:1', 'exists:App\Models\Thana,id'],
-            'zone_id' => ['required', 'integer', 'min:1', 'exists:App\Models\Zone,id'],
-            'traffic_point_id' => ['required', 'integer', 'min:1', 'exists:App\Models\TrafficPoint,id'],
+            'district_id' => ['required', 'exists:App\Models\District,id'],
+            'thana_id' => ['required', 'exists:App\Models\Thana,id'],
+            'zone_id' => ['required', 'exists:App\Models\Zone,id'],
+            'traffic_point_id' => ['required', 'exists:App\Models\TrafficPoint,id'],
         ]);
 
         $shiftSlotsCount = $shiftSlot->where('district_id', $data['district_id'])->where('thana_id', $data['thana_id'])->where('zone_id', $data['zone_id'])->where('traffic_point_id', $data['traffic_point_id'])->count();

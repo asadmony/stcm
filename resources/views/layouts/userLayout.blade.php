@@ -255,11 +255,10 @@
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="{{ route('admin.slotBookings') }}" class="nav-link @if (url()->current() == route('admin.slotBookings')) active @endif">
+            <a href="{{ route('bookShift') }}" class="nav-link @if (url()->current() == route('bookShift')) active @endif">
                 <i class="nav-icon fas fa-traffic-light"></i>
               <p>
-                Shift bookings
-                {{-- <span class="badge badge-success right">2</span> --}}
+                Book a shift
               </p>
             </a>
           </li>
@@ -267,63 +266,15 @@
             <a href="{{ route('admin.shiftSlots') }}" class="nav-link @if (url()->current() == route('admin.shiftSlots')) active @endif">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
-                Zone Shifts Slots
+                My Shifts
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ route('admin.shifts') }}" class="nav-link @if (url()->current() == route('admin.shifts')) active @endif">
-                <i class="nav-icon fas fa-stopwatch"></i>
+                <i class="nav-icon fas fa-user-circle"></i>
               <p>
-                Traffic Shifts
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.trafficPoints') }}" class="nav-link @if (url()->current() == route('admin.trafficPoints')) active @endif">
-                <i class="nav-icon fas fa-map-pin"></i>
-              <p>
-                Traffic Points
-              </p>
-            </a>
-            <li class="nav-item">
-              <a href="{{ route('admin.zones') }}" class="nav-link @if (url()->current() == route('admin.zones')) active @endif">
-                  <i class="nav-icon fas fa-map-marked-alt"></i>
-                <p>
-                  Traffic Zones
-                </p>
-              </a>
-            </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.thanas') }}" class="nav-link @if (url()->current() == route('admin.thanas')) active @endif">
-              <i class="nav-icon fas fa-map-marked"></i>
-              <p>
-                Traffic Thanas
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.districts') }}" class="nav-link @if (url()->current() == route('admin.districts')) active @endif">
-              <i class="nav-icon far fa-map"></i>
-              <p>
-                Traffic Districts
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.users') }}" class="nav-link @if (url()->current() == route('admin.users')) active @endif">
-                <i class="nav-icon far fa-user"></i>
-              <p>
-                All Students
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ route('admin.admins') }}" class="nav-link @if (url()->current() == route('admin.admins')) active @endif">
-                <i class="nav-icon fas fa-user-shield"></i>
-              <p>
-                All Admins
+                My Profile
               </p>
             </a>
           </li>
