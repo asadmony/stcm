@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userLayout')
 
 @section('content')
 <div class="container">
@@ -77,6 +77,7 @@
               </div>
               <!-- ./card-header -->
               <div class="card-body">
+                <x-alert />
                 <table class="table table-bordered table-hover">
                   <thead>
                     <tr>

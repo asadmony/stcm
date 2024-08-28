@@ -12,7 +12,7 @@ class UserProfileController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('student.completeProfile');
     }
 
     /**
@@ -28,7 +28,24 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'father_name' => ['required', 'string', 'max:255'],
+            'mother_name' => ['required', 'string', 'max:255'],
+            'gender' => ['required', 'string', 'in:Female,Male'],
+            'nid' => ['required', 'string', 'max:255'],
+            'mobile_no' => ['required', 'string', 'max:20'],
+            'address' => ['required', 'regex:/([- ,\/0-9a-zA-Z]+)/'],
+            'education_institute' => ['required', 'string', 'max:255'],
+            'education_level' => ['required', 'string', 'max:255'],
+            'education_id' => ['required', 'string', 'max:255'],
+            'date_of_birth' => ['required', 'date'],
+        ]);
+        if (!auth()->user()->hasProfile()) {
+            auth()->user()->profile()->create($data);
+        } else {
+            auth()->user()->profile()->update($data);
+        }
+        return redirect()->route('home')->with('success', 'Profile created successfully!');
     }
 
     /**

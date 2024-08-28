@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('birth_certificate_photo')->nullable();
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();
+            $table->string('gender')->nullable();
             $table->string('mobile_no', 20)->nullable();
             $table->text('address')->nullable();
             $table->string('education_institute')->nullable();

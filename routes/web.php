@@ -36,11 +36,12 @@ Route::middleware([ 'auth','admin'])->prefix('admin')->group(function () {
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/complete-profile', [App\Http\Controllers\UserProfileController::class, 'index'])->name('completeProfile');
+    Route::post('/complete-profile', [App\Http\Controllers\UserProfileController::class, 'store'])->name('completeProfile.store');
 });
 
 Route::middleware(['auth', 'user', 'profile'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    Route::get('/shift-booking', [App\Http\Controllers\HomeController::class, 'index'])->name('bookShift');
 });
 
 

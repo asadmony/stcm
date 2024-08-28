@@ -10,10 +10,20 @@ class UserProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'nid',
+        'nid_photo',
+        'birth_certificate',
+        'birth_certificate_photo',
+        'father_name',
+        'mother_name',
         'gender',
-        'phone',
-        'image',
+        'mobile_no',
+        'address',
+        'education_institute',
+        'education_level',
+        'education_id',
+        'date_of_birth',
+        'user_id',
     ];
 
     public function user()

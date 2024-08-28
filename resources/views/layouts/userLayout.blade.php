@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        {{ $title ?? 'Student Traffic Controller Management' }}
+      {{ $title ?? 'Student Traffic Controller Management' }}
     </title>
 
     <!-- Fonts -->
@@ -258,7 +258,7 @@
             <a href="{{ route('admin.slotBookings') }}" class="nav-link @if (url()->current() == route('admin.slotBookings')) active @endif">
                 <i class="nav-icon fas fa-traffic-light"></i>
               <p>
-                Book a shift
+                Shift bookings
                 {{-- <span class="badge badge-success right">2</span> --}}
               </p>
             </a>

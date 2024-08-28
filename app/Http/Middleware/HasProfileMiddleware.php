@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HasProfile
+class HasProfileMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,8 +18,7 @@ class HasProfile
         if (auth()->user()->hasProfile()) {
             return $next($request);
         } else {
-            # code...
+            return redirect()->route('completeProfile');
         }
-
     }
 }
