@@ -53,7 +53,7 @@ class UserProfileController extends Controller
      */
     public function show(UserProfile $userProfile)
     {
-        //
+        return view('student.userProfile');
     }
 
     /**

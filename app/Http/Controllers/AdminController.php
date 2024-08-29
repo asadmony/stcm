@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+
+
     /**
      * Display a listing of the resource.
      */
-    public function index(Admin $user)
+    public function index(User $user)
     {
-        $users = $user->all();
-        return view('admin.user.index', compact('users'));
+        $users = $user->where('is_admin', true)->get();
+        return view('admin.users.index', compact('users'));
     }
 
     /**

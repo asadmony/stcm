@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\District;
 use App\Models\Shift;
 use App\Models\ShiftSlot;
+use App\Models\SlotBooking;
 use App\Models\Thana;
 use App\Models\TrafficPoint;
 use App\Models\Zone;
@@ -67,4 +68,32 @@ class HomeController extends Controller
         $districts = District::all();
         return view('student.bookShift', compact('shiftSlots', 'districts', 'selectedDistrict', 'selectedThana', 'selectedZone', 'selectedPoint'));
     }
+
+    public function store(ShiftSlot $shiftSlot, Request $request, SlotBooking $slotBooking){
+        $data = $this->validate($request, [
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'slots' => ['required', 'exists:App\Models\ShiftSlot,id'],
+        ]);
+        foreach ($request->slots as $key => $value) {
+            $shiftslot = $shiftSlot->where('id', $value)->first();
+            $bookingCount = $shiftslot->slotBookings()->where('date', $data['date'])->count();
+            if ($bookingCount < $shiftslot->slots) {
+                $shiftslot->slotBookings()->create([
+                    'date' => $data['date'],
+                    'user_id' => auth()->user()->id,
+                    'district_id' => $shiftslot->district_id,
+                    'thana_id' => $shiftslot->thana_id,
+                    'zone_id' => $shiftslot->zone_id,
+                    'traffic_point_id' => $shiftslot->traffic_point_id,
+                    'start_time' => $shiftslot->start,
+                    'end_time' => $shiftslot->end,
+                ]);
+            }
+            else{
+                $slotError[] = $shiftslot->id;
+            }
+        }
+
+    }
+
 }

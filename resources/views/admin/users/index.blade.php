@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title">Add New User Area</h3>
@@ -54,7 +54,7 @@
                 </div>
               </form>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-6">
 
             <div class="card card-success">

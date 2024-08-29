@@ -32,6 +32,25 @@
 
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+
+    <style>
+        main {
+        background-color: #b8b8b8;
+        }
+
+        main::before {
+        background-image: url({{ asset('img/traffic.png') }});
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.4;
+        }
+
+        /* h1 {
+        color: #fff;
+        isolation: isolate;
+        } */
+    </style>
 </head>
 <body>
     <div id="app">
@@ -271,7 +290,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.shifts') }}" class="nav-link @if (url()->current() == route('admin.shifts')) active @endif">
+            <a href="{{ route('userProfile.show') }}" class="nav-link @if (url()->current() == route('userProfile.show')) active @endif">
                 <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 My Profile
@@ -309,7 +328,7 @@
 
       @endguest
 
-        <main class="py-4" style="background-image: url('{{ asset('img/web-bg.jpg') }}'); height: 100vh">
+        <main class="py-4" style="height: 100vh">
 
             @yield('content')
 

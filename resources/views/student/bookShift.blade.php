@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container px-0">
-
+    <div class="row justify-content-center">
+        <x-alert />
+    </div>
     <div class="row justify-content-center">
         <div class="col-lg-4">
             <div class="card card-primary">
@@ -14,11 +16,10 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <form action="{{ route('shiftSlots.show') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                <form action="{{ route('shiftSlots.show') }}" method="GET" enctype="multipart/form-data">
                 <!-- form start -->
                 <div class="card-body">
-                    <x-alert />
+
                   <div class="form-group">
                     <label for="district">Select District </label>
                     <select class="custom-select form-control-border" id="district" name="district_id" onchange="getThana(this.value)">
@@ -99,7 +100,7 @@
                                 <div class="form-group row">
                                     <label for="date" class="col-sm-2 col-form-label">Select Date</label>
                                     <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="date" name="date" value="{{ old('date') ?? '' }}">
+                                    <input type="date" class="form-control datepicker"  data-date-start-date="+1d" id="date" name="date" value="{{ old('date') ?? '' }}">
                                     </div>
                                 </div>
                                 <table class="table table-striped-">
@@ -127,11 +128,15 @@
                                 <button type="submit" class="btn btn-primary w-100"><i class="far fa-calendar-check"></i> Book</button>
                             </div>
                         </form>
-                            @else
+                        @elseif(!isset($shiftSlots))
+                            <div class="alert m-3" role="alert">
+                                Please select district, thana, zone and traffic point.
+                            </div>
+                        @else
                             <div class="alert alert-danger m-3" role="alert">
                                 We are not hiring for this area yet.
                             </div>
-                            @endif
+                        @endif
                         </div>
                 </div>
                 <!-- /.card-body -->

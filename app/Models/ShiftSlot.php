@@ -76,4 +76,15 @@ class ShiftSlot extends Model
         return $this->belongsTo(Shift::class);
     }
 
+
+    /**
+     * Get the Slot Bookings that owns the ShiftSlot
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function slotBookings()
+    {
+        return $this->belongsTo(SlotBooking::class);
+    }
+
 }

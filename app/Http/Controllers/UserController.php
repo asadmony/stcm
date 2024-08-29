@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-        $users = $user->all();
+        $users = $user->where('is_admin', false)->get();
         return view('admin.users.index', compact('users'));
     }
 

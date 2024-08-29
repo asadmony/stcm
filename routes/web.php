@@ -10,10 +10,10 @@ Auth::routes();
 
 Route::middleware([ 'auth','admin'])->prefix('admin')->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.home');
+    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users');
-    Route::get('/admins', [App\Http\Controllers\UserController::class, 'index'])->name('admin.admins');
+    Route::get('/admins', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.admins');
     Route::get('/districts', [App\Http\Controllers\DistrictController::class, 'index'])->name('admin.districts');
     Route::post('/districts', [App\Http\Controllers\DistrictController::class, 'store'])->name('admin.districts.store');
     Route::get('/thanas', [App\Http\Controllers\ThanaController::class, 'index'])->name('admin.thanas');
@@ -42,12 +42,13 @@ Route::middleware(['auth', 'user'])->group(function () {
 Route::middleware(['auth', 'user', 'profile'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/shift-booking', [App\Http\Controllers\HomeController::class, 'bookShift'])->name('bookShift');
-    Route::post('/shift-booking', [App\Http\Controllers\HomeController::class, 'store'])->name('bookShift.store');
+    Route::get('/zone-shift-slots', [App\Http\Controllers\HomeController::class, 'showShifts'])->name('shiftSlots.show');
     Route::get('/get-thanas-by-district/{district}', [App\Http\Controllers\HomeController::class, 'getThanasByDistrict'])->name('getThanasByDistrict');
     Route::get('/get-zones-by-thana/{thana}', [App\Http\Controllers\HomeController::class, 'getZonesByThana'])->name('getZonesByThana');
     Route::get('/get-points-by-zone/{zone}', [App\Http\Controllers\HomeController::class, 'getPointsByZone'])->name('getPointsByZone');
-    Route::post('/zone-shift-slots', [App\Http\Controllers\HomeController::class, 'showShifts'])->name('shiftSlots.show');
-    Route::post('/zone-shift-slots/{shiftSlot}/update', [App\Http\Controllers\ShiftSlotController::class, 'update'])->name('shiftSlots.update');
+    Route::post('/shift-booking/save', [App\Http\Controllers\HomeController::class, 'store'])->name('bookShift.store');
+    Route::post('/zone-shift-slots/{shiftSlot}/update', [App\Http\Controllers\HomeController::class, 'update'])->name('shiftSlots.update');
+    Route::get('/profile', [App\Http\Controllers\UserProfileController::class, 'show'])->name('userProfile.show');
 });
 
 
