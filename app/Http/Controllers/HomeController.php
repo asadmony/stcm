@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\District;
-use App\Models\Shift;
 use App\Models\ShiftSlot;
 use App\Models\SlotBooking;
 use App\Models\Thana;
 use App\Models\TrafficPoint;
 use App\Models\Zone;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(Agent $agent)
     {
         $this->middleware('auth');
-
+        if($agent->isDesktop())
+        {
+          //$this->device = 'theme.'.config('app.theme').'.';
+        }
+        else
+        {
+          $this->device = 'mobile.'; //mobile and tab will use
+        }
     }
+
+    protected $device;
 
     /**
      * Show the application dashboard.
@@ -32,11 +36,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view($this->device.'home');
     }
     public function bookShift() {
         $districts = District::all();
-        return view('student.bookShift', compact('districts'));
+        return view($this->device.'student.bookShift', compact('districts'));
     }
     public function getThanasByDistrict(District $district)
     {
@@ -66,7 +70,7 @@ class HomeController extends Controller
         $selectedPoint = TrafficPoint::where('id', $data['traffic_point_id'])->first();
         $shiftSlots = $shiftSlot->where('district_id', $data['district_id'])->where('thana_id', $data['thana_id'])->where('zone_id', $data['zone_id'])->where('traffic_point_id', $data['traffic_point_id'])->get();
         $districts = District::all();
-        return view('student.bookShift', compact('shiftSlots', 'districts', 'selectedDistrict', 'selectedThana', 'selectedZone', 'selectedPoint'));
+        return view($this->device.'student.bookShift', compact('shiftSlots', 'districts', 'selectedDistrict', 'selectedThana', 'selectedZone', 'selectedPoint'));
     }
 
     public function store(ShiftSlot $shiftSlot, Request $request, SlotBooking $slotBooking){
