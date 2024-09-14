@@ -9,7 +9,6 @@
                     {{ session('status') }}
                 </div>
             @endif
-
         </div>
         <div class="w-100">
             <div class="card card-secondary">

@@ -21,12 +21,52 @@ class SlotBooking extends Model
         'end_time',
     ];
     /**
-     * Get all of the shifts for the SlotBooking
+     * Get the shifts that owns the SlotBooking
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shifts()
+    public function shift()
     {
-        return $this->hasMany(Shift::class);
+        return $this->belongsTo(Shift::class);
+    }
+    /**
+     * Get the district that owns the SlotBooking
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    /**
+     * Get the thana that owns the SlotBooking
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function thana()
+    {
+        return $this->belongsTo(Thana::class);
+    }
+
+    /**
+     * Get the zone that owns the SlotBooking
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
+
+    /**
+     * Get the Traffic Point that owns the SlotBooking
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function trafficPoint()
+    {
+        return $this->belongsTo(TrafficPoint::class);
     }
 }

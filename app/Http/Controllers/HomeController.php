@@ -34,9 +34,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(ShiftSlot $shiftSlot)
     {
-        return view($this->device.'home');
+        $mySlots = SlotBooking::where('user_id', auth()->user()->id)->where('date','>=', now())->get();
+        return view($this->device.'home', compact('mySlots'));
     }
     public function bookShift() {
         $districts = District::all();
@@ -89,14 +90,17 @@ class HomeController extends Controller
                     'thana_id' => $shiftslot->thana_id,
                     'zone_id' => $shiftslot->zone_id,
                     'traffic_point_id' => $shiftslot->traffic_point_id,
-                    'start_time' => $shiftslot->start,
-                    'end_time' => $shiftslot->end,
+                    'shift_id' => $shiftslot->id,
+                    'start_time' => $shiftslot->start_time,
+                    'end_time' => $shiftslot->end_time,
                 ]);
             }
             else{
                 $slotError[] = $shiftslot->id;
             }
         }
+
+        return redirect()->back()->with('success', 'Booking created successfully!');
 
     }
 

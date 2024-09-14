@@ -49,6 +49,7 @@ Route::middleware(['auth', 'user', 'profile'])->group(function () {
     Route::post('/shift-booking/save', [App\Http\Controllers\HomeController::class, 'store'])->name('bookShift.store');
     Route::post('/zone-shift-slots/{shiftSlot}/update', [App\Http\Controllers\HomeController::class, 'update'])->name('shiftSlots.update');
     Route::get('/profile', [App\Http\Controllers\UserProfileController::class, 'show'])->name('userProfile.show');
+    Route::get('/profile', [App\Http\Controllers\UserProfileController::class, 'show'])->name('cancelSchedule');
 });
 
 

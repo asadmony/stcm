@@ -76,6 +76,7 @@
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     @if(isset($selectedDistrict) && isset($selectedThana) && isset($selectedZone) && isset($selectedPoint))
+
                     <div class="table-responsive bg-cyan">
                         <table class="table m-0">
                             <tr>
@@ -103,7 +104,7 @@
                     @endif
                     <div>
                         @if (isset($shiftSlots) && $shiftSlots->count() > 0)
-                        <form action="{{ route('bookShift.store') }}" method="POST">
+                        <form action="{{ route('bookShift.store') }}" method="POST" id="ele">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group row">
@@ -152,7 +153,12 @@
             </div>
         </div>
     </div>
-
+    <script>
+        var elem = document
+            .getElementById("ele");
+        elem
+            .scrollIntoView();
+    </script>
     <script>
         function getThana(id){
             $.ajax({
