@@ -9,8 +9,10 @@ use App\Models\SlotBooking;
 use App\Models\Thana;
 use App\Models\TrafficPoint;
 use App\Models\Zone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+use Laravel\Ui\Presets\React;
 
 class HomeController extends Controller
 {
@@ -36,9 +38,15 @@ class HomeController extends Controller
      */
     public function index(ShiftSlot $shiftSlot)
     {
-        $mySlots = SlotBooking::where('user_id', auth()->user()->id)->where('date','>=', now())->get();
+        $mySlots = SlotBooking::where('user_id', auth()->user()->id)->where('start_time','>=', Carbon::now())->get();
         return view($this->device.'home', compact('mySlots'));
     }
+    public function history(ShiftSlot $shiftSlot)
+    {
+        $mySlots = SlotBooking::where('user_id', auth()->user()->id)->where('start_time','<=', Carbon::now())->get();
+        return view($this->device.'student.history', compact('mySlots'));
+    }
+
     public function bookShift() {
         $districts = District::all();
         return view($this->device.'student.bookShift', compact('districts'));
@@ -91,16 +99,24 @@ class HomeController extends Controller
                     'zone_id' => $shiftslot->zone_id,
                     'traffic_point_id' => $shiftslot->traffic_point_id,
                     'shift_id' => $shiftslot->id,
-                    'start_time' => $shiftslot->start_time,
-                    'end_time' => $shiftslot->end_time,
+                    'start_time' => $data['date'].' '.$shiftslot->start_time,
+                    'end_time' => $data['date'].' '.$shiftslot->end_time,
                 ]);
             }
             else{
                 $slotError[] = $shiftslot->id;
             }
         }
+        return redirect()->route('bookShift')->with('success', 'Booking created successfully!');
+    }
 
-        return redirect()->back()->with('success', 'Booking created successfully!');
+    public function cancelSlot(Request $request, SlotBooking $slotBooking) {
+        if ($slotBooking->user_id == auth()->user()->id) {
+            $slotBooking->delete();
+            return redirect()->route('home')->with('success', 'Slot Booking canceled successfully!');
+        } else {
+            return redirect()->back()->with('error', 'You are not authorized to cancel this booking!');
+        }
 
     }
 

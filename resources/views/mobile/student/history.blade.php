@@ -7,7 +7,7 @@
     </div>
     <section class="padding-around">
         <div>
-            <h1>Your Upcoming Schedule</h1>
+            <h1>Your completed Schedules</h1>
         </div>
         <div>
             <x-alert />
@@ -16,17 +16,7 @@
                 <tr class="text-center">
                     <th>{{ $loop->iteration }}</th>
                     <th> </th>
-                    <td>
-                        <a href="" onclick="event.preventDefault();
-                            if(confirm('Are you sure to delete?')){
-                                document.getElementById('form-delete-{{ $item->id }}')
-                                .submit()
-                            }" class="text-danger border p-1"><i class="far fa-calendar-times"></i> Cancel Shift</a>
-                            <form style="display: none;" id="form-delete-{{ $item->id }}" method="POST" action="{{ route('cancelSlot', $item->id) }}">
-                                @csrf
-                                @method('delete')
-                            </form>
-                    </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>Date</th>

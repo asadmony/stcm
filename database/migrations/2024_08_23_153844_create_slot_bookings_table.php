@@ -19,8 +19,8 @@ return new class extends Migration
             $table->bigInteger('traffic_point_id')->unsigned()->nullable();
             $table->bigInteger('shift_id')->unsigned()->nullable();
             $table->date('date')->nullable();
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->timestamps();
         });
